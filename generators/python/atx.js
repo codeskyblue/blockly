@@ -8,7 +8,11 @@ goog.require('Blockly.Python');
 Blockly.Python['atx_connect'] = function(block) {
   var dropdown_platform = block.getFieldValue('PLATFORM');
   // TODO: Assemble Python into code variable.
-  var code = 'd = atx.connect(platform="'+ dropdown_platform + '")\n';
+  var code = '# coding: utf-8\n' + 
+    'import os\nimport atx\n\n\n' + 
+    '__basename = os.path.basename(os.path.splitext(__file__)[0])\n' +
+    'd = atx.connect(platform="'+ dropdown_platform + '")\n' +
+    'd.image_path = [".", "images", os.path.join("images", __basename)]\n\n';
   return code;
 };
 

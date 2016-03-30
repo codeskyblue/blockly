@@ -84,9 +84,12 @@ Blockly.Blocks['atx_image_pattern'] = {
 
 Blockly.Blocks['atx_image_file'] = {
   init: function() {
+    var getImages = function(){
+      return window.blocklyImageList || [["unknown.png", "https://www.gstatic.com/codesite/ph/images/star_on.gif"]];
+    }
     this.appendDummyInput()
         .appendField(new Blockly.FieldImage("https://www.gstatic.com/codesite/ph/images/star_on.gif", 30, 30, "*"), 'IMAGE')
-        .appendField(new Blockly.FieldDropdown([["button.png", "btn.png"], ["option", "OPTIONNAME"], ["option", "OPTIONNAME"]]), "FILENAME");
+        .appendField(new Blockly.FieldDropdown(getImages), "FILENAME");
     this.setOutput(true, "String");
     this.setColour(60);
     this.setTooltip('');
@@ -97,15 +100,9 @@ Blockly.Blocks['atx_image_file'] = {
     var val_filename = this.getFieldValue('FILENAME')
 
     if (event.type == Blockly.Events.CHANGE || event.type == Blockly.Events.CREATE) {
-      // console.log(event);
-      // console.log(val_filename);
-      if (val_filename == 'btn.png') {
-        field_image.setValue('https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo_top_ca79a146.png')
-      } else {
-        field_image.setValue('https://www.gstatic.com/images/branding/googleg/2x/googleg_standard_color_48dp.png')
-      }
+      var baseURL = window.blocklyBaseURL || '';
+      field_image.setValue(baseURL + val_filename)
     }
-    window.block = this;
   }
 };
 

@@ -6,26 +6,17 @@ goog.require('Blockly.Blocks');
 
 Blockly.Blocks.atx.HUE = 140;
 
-// https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#gq8gdg
+// OLD: https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#gq8gdg
+// NEW: https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#yfa7gg
 Blockly.Blocks['atx_connect'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("连接安卓设备")
-        .appendField(new Blockly.FieldImage("https://www.gstatic.com/codesite/ph/images/star_on.gif", 15, 15, "M"));
-    this.appendValueInput("HOST")
-        .setCheck("String")
-        .appendField("Host");
-    this.appendValueInput("PORT")
-        .setCheck("String")
-        .appendField("Port");
-    this.appendValueInput("SN")
-        .setCheck("String")
-        .appendField("SerialNo");
-    this.appendDummyInput();
-    this.setNextStatement(true);
+        .appendField("连接设备")
+        .appendField(new Blockly.FieldDropdown([["Android", "android"], ["Windows", "windows"]]), "PLATFORM");
+    this.setNextStatement(true, null);
     this.setColour(160);
     this.setTooltip('');
-    this.setHelpUrl('http://www.example.com/');
+    this.setHelpUrl('https://github.com/codeskyblue/AirtestX');
   }
 };
 
@@ -54,8 +45,7 @@ Blockly.Blocks['atx_click'] = {
 Blockly.Blocks['atx_click_image'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("点击图片")
-        .appendField(new Blockly.FieldImage("https://www.gstatic.com/codesite/ph/images/star_on.gif", 15, 15, "*"));
+        .appendField("点击图片");
     this.appendValueInput("ATX_PATTERN")
         .setCheck(["String", "ATX_PATTERN"])
         .setAlign(Blockly.ALIGN_RIGHT);
@@ -88,17 +78,46 @@ Blockly.Blocks['atx_image_pattern'] = {
     this.setOutput(true, "ATX_PATTERN");
     this.setColour(195);
     this.setTooltip('');
-    this.setHelpUrl('http://www.example.com/');
+    this.setHelpUrl('http://www.baidu.com/');
   }
 };
 
 Blockly.Blocks['atx_image_file'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField(new Blockly.FieldImage("https://www.gstatic.com/codesite/ph/images/star_on.gif", 15, 15, "*"))
+        .appendField(new Blockly.FieldImage("https://www.gstatic.com/codesite/ph/images/star_on.gif", 30, 30, "*"), 'IMAGE')
         .appendField(new Blockly.FieldDropdown([["button.png", "btn.png"], ["option", "OPTIONNAME"], ["option", "OPTIONNAME"]]), "FILENAME");
     this.setOutput(true, "String");
     this.setColour(60);
+    this.setTooltip('');
+    this.setHelpUrl('http://www.example.com/');
+  },
+  onchange: function(event) {
+    var field_image = this.getField('IMAGE');
+    var val_filename = this.getFieldValue('FILENAME')
+
+    if (event.type == Blockly.Events.CHANGE || event.type == Blockly.Events.CREATE) {
+      // console.log(event);
+      // console.log(val_filename);
+      if (val_filename == 'btn.png') {
+        field_image.setValue('https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo_top_ca79a146.png')
+      } else {
+        field_image.setValue('https://www.gstatic.com/images/branding/googleg/2x/googleg_standard_color_48dp.png')
+      }
+    }
+    window.block = this;
+  }
+};
+
+// https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#jamchn
+Blockly.Blocks['atx_screenshot'] = {
+  init: function() {
+    this.appendValueInput("FILENAME")
+        .setCheck("String")
+        .appendField("保存截图");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(160);
     this.setTooltip('');
     this.setHelpUrl('http://www.example.com/');
   }

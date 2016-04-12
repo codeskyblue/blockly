@@ -48,7 +48,7 @@ Blockly.Python['atx_click_image'] = function(block) {
   if (text_timeout) {
     params.push('timeout='+text_timeout)
   }
-  var code = 'atx.click_image('+params.join(', ') + ')\n';
+  var code = 'd.click_image('+params.join(', ') + ')\n';
   return code;
 };
 

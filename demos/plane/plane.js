@@ -65,7 +65,7 @@ Plane.LANGUAGE_NAME = {
   'tr': 'Türkçe',
   'uk': 'Українська',
   'vi': 'Tiếng Việt',
-  'zh-hans': '簡體中文',
+  'zh-hans': '简体中文',
   'zh-hant': '正體中文'
 };
 
@@ -276,6 +276,7 @@ Plane.init = function() {
   Plane.loadBlocks(defaultXml);
 
   Plane.workspace.addChangeListener(Plane.recalculate);
+  Plane.workspace.addChangeListener(Blockly.Events.disableOrphans);
 
   // Initialize the slider.
   var svg = document.getElementById('plane');

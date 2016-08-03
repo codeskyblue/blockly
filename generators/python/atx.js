@@ -8,8 +8,8 @@ goog.require('Blockly.Python');
 Blockly.Python['atx_connect'] = function(block) {
   var dropdown_platform = block.getFieldValue('PLATFORM');
   // TODO: Assemble Python into code variable.
-  var code = '# coding: utf-8\n' + 
-    'import os\nimport atx\n\n\n' + 
+  var code = '# coding: utf-8\n' +
+    'import os\nimport atx\n\n\n' +
     '__basename = os.path.basename(os.path.splitext(__file__)[0])\n' +
     'd = atx.connect(platform="'+ dropdown_platform + '")\n' +
     'd.image_path = [".", "images", os.path.join("images", __basename)]\n\n';
@@ -89,3 +89,19 @@ Blockly.Python['atx_screenshot'] = function(block) {
   var code = 'd.screenshot(' + value_filename + ')\n';
   return code;
 };
+
+Blockly.Python['atx_image_crop'] =  function(block) {
+  var x = block.getFieldValue('LEFT'),
+      y = block.getFieldValue('TOP'),
+      w = block.getFieldValue('WIDTH'),
+      h = block.getFieldValue('HIGHT'),
+      ox = block.getFieldValue('OX'),
+      oy = block.getFieldValue('OY'),
+      filename = block.getFieldValue('FILENAME');
+  console.log(x, y, w, h, ox, oy, filename);
+  return ['atx_image_crop', Blockly.Python.ORDER_ATOMIC];
+}
+
+Blockly.Python['atx_blank'] = function(block) {
+  return '\n';
+}

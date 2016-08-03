@@ -327,60 +327,6 @@ h1 {
 
   <div id="blocklyDiv"></div>
 
-  <xml id="toolbox" style="display: none">
-    <category name="AirtestX" colour="240">
-      <block type="atx_connect">
-      </block>
-      <block type="atx_click">
-        <value name="X">
-          <shadow type="math_number">
-            <field name="NUM">0</field>
-          </shadow>
-        </value>
-        <value name="Y">
-          <shadow type="math_number">
-            <field name="NUM">0</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="atx_click_image">
-        <value name="ATX_PATTERN">
-          <block type="atx_image_file">
-          </block>
-        </value>
-      </block>
-      <block type="atx_click_image">
-        <value name="ATX_PATTERN">
-          <block type="atx_image_pattern">
-            <value name="FILENAME">
-              <block type="atx_image_file">
-              </block>
-            </value>
-            <value name="THRESHOLD">
-              <block type="math_number">
-                <field name="NUM">0.8</field>
-              </block>
-            </value>
-          </block>
-        </value>
-      </block>
-      <block type="atx_image_pattern">
-        <value name="THRESHOLD">
-          <block type="math_number">
-            <field name="NUM">0.8</field>
-          </block>
-        </value>
-      </block>
-      <block type="atx_image_file">
-      </block>
-      <block type="atx_screenshot">
-        <value name="FILENAME">
-          <block type="text">
-            <field name="TEXT">screen.png</field>
-          </block>
-        </value>
-      </block>
-    </category>
   <h1>Blockly Playground</h1>
 
   <p><a href="javascript:void(workspace.setVisible(true))">Show</a>
@@ -453,7 +399,6 @@ h1 {
   </xml>
 
   <xml id="toolbox-categories" style="display: none">
->>>>>>> google/master
     <category name="Logic" colour="210">
       <block type="controls_if"></block>
       <block type="logic_compare"></block>
@@ -756,6 +701,67 @@ h1 {
     <sep></sep>
     <category name="Variables" colour="330" custom="VARIABLE"></category>
     <category name="Functions" colour="290" custom="PROCEDURE"></category>
+  </xml>
+
+  <xml id="toolbox-atx" style="display: none">
+    <category name="AirtestX" colour="240">
+      <block type="atx_connect"></block>
+      <block type="atx_click">
+        <value name="X">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+        <value name="Y">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+      </block>
+      <block type="atx_click_image">
+        <value name="ATX_PATTERN">
+          <block type="atx_image_file">
+          </block>
+        </value>
+      </block>
+      <block type="atx_click_image">
+        <value name="ATX_PATTERN">
+          <block type="atx_image_pattern">
+            <value name="FILENAME">
+              <block type="atx_image_file">
+              </block>
+            </value>
+            <value name="THRESHOLD">
+              <block type="math_number">
+                <field name="NUM">0.8</field>
+              </block>
+            </value>
+          </block>
+        </value>
+      </block>
+      <block type="atx_image_pattern">
+        <value name="THRESHOLD">
+          <block type="math_number">
+            <field name="NUM">0.8</field>
+          </block>
+        </value>
+      </block>
+      <block type="atx_image_file">
+      </block>
+      <block type="atx_screenshot">
+        <value name="FILENAME">
+          <block type="text">
+            <field name="TEXT">screen.png</field>
+          </block>
+        </value>
+      </block>
+      <block type="atx_image_crop_preview">
+        <value name="IMAGE_CROP">
+          <block type="atx_image_crop"></block>
+        </value>
+      </block>
+      <block type="atx_blank"></block>
+    </category>
   </xml>
 </body>
 </html>

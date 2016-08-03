@@ -1116,6 +1116,10 @@ Blockly.Block.prototype.interpolate_ = function(message, args, lastDummyAlign) {
               field = new Blockly.FieldImage(element['src'],
                   element['width'], element['height'], element['alt']);
               break;
+            case 'field_image_crop':
+              field = new Blockly.FieldImageCrop(element['src'],
+                  element['height'], element['alt']);
+              break;
             case 'field_number':
               field = new Blockly.FieldNumber(element['value'],
                   element['min'], element['max'], element['precision']);

@@ -26,13 +26,13 @@ Blockly.Blocks['atx_click'] = {
     this.appendValueInput("X")
         .setCheck("Number")
         .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("坐标点击")
+        .appendField("点击坐标")
         .appendField("X");
     this.appendValueInput("Y")
         .setCheck("Number")
         .setAlign(Blockly.ALIGN_RIGHT)
         .appendField("Y");
-    this.appendDummyInput();
+    this.setInputsInline(true);
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setColour(230);
@@ -61,12 +61,9 @@ Blockly.Blocks['atx_click_image'] = {
   }
 };
 
-
 // https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#vmxnmh
 Blockly.Blocks['atx_image_pattern'] = {
   init: function() {
-    this.appendDummyInput()
-        .appendField("Pattern");
     this.appendValueInput("FILENAME")
         .setCheck("String")
         .setAlign(Blockly.ALIGN_RIGHT)
@@ -117,5 +114,83 @@ Blockly.Blocks['atx_screenshot'] = {
     this.setColour(160);
     this.setTooltip('');
     this.setHelpUrl('http://www.example.com/');
+  }
+};
+
+// Image Crop
+Blockly.Blocks['atx_image_crop'] = {
+  init: function(){
+    var getImages = function(){
+      return window.blocklyImageList || [["unknown.png", "https://www.gstatic.com/codesite/ph/images/star_on.gif"], ["screen.png", "screen.png"]];
+    }
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldDropdown(getImages), "FILENAME");
+    this.appendDummyInput()
+        .appendField("Bounds: (")
+        .appendField(new Blockly.FieldNumber(0, 0, 9999, 1), "LEFT")
+        .appendField(",")
+        .appendField(new Blockly.FieldNumber(0, 0, 9999, 1), "TOP")
+        .appendField(")@(")
+        .appendField(new Blockly.FieldNumber(10, 10, 9999, 1), "WIDTH")
+        .appendField("x")
+        .appendField(new Blockly.FieldNumber(10, 10, 9999, 1), "HEIGHT")
+        .appendField(")");
+    this.appendDummyInput()
+        .appendField("Offset: (")
+        .appendField(new Blockly.FieldNumber(0, 0, 9999, 1), "OX")
+        .appendField(',')
+        .appendField(new Blockly.FieldNumber(0, 0, 9999, 1), "OY")
+        .appendField(")");
+    this.setOutput(true, "IMAGE_CROP");
+    this.setColour(60);
+    this.setTooltip('');
+    this.setHelpUrl('http://www.example.com/');
+  }
+};
+
+Blockly.Blocks['atx_image_crop_preview'] = {
+  init: function(){
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImageCrop("https://www.gstatic.com/codesite/ph/images/star_on.gif", 72, "*"), 'IMAGE');
+    this.appendValueInput("IMAGE_CROP")
+        .setCheck("IMAGE_CROP")
+        .setAlign(Blockly.ALIGN_RIGHT);
+    this.setInputsInline(true);
+    this.setOutput(true, 'String');
+    this.setColour(60);
+    this.setTooltip('');
+    this.setHelpUrl('http://www.example.com/');
+  },
+  onchange: function(event) {
+    if (event.element != 'field') {
+      return;
+    }
+    console.log(111, event);
+    var block = this.getField('IMAGE');
+    if (event.name == 'FILENAME'){
+      block.setValue(event.newValue);
+    } else {
+      var crop = this.getInput('IMAGE_CROP').connection.targetBlock();
+      if (crop == null) {
+        return;
+      }
+      var left = crop.getFieldValue('LEFT'),
+          top = crop.getFieldValue('TOP'),
+          width = crop.getFieldValue('WIDTH'),
+          height = crop.getFieldValue('HEIGHT');
+      block.setBound({left, top, width, height});
+    }
+  },
+};
+
+// An blank line for separate blocks of code
+Blockly.Blocks['atx_blank'] = {
+  init: function(){
+    this.appendDummyInput()
+        .appendField("                            ");
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setColour('#FFFFFF');
+    this.setTooltip('');
   }
 };

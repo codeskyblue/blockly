@@ -19,7 +19,7 @@
  */
 
 /**
- * @fileoverview Cropped Image field. .
+ * @fileoverview Cropped Image field.
  * @author wuxc08@gmail.com (Https://github.com/wuxc)
  */
 'use strict';
@@ -44,6 +44,7 @@ Blockly.FieldImageCrop = function(src, height, opt_alt) {
   this.size_ = new goog.math.Size(this.width_,
       this.height_ + 2 * Blockly.BlockSvg.INLINE_PADDING_Y);
   // this.image_size_ = {width: this.width_, height: this.height_};
+  this.text_ = opt_alt || '';
   this.setValue(src);
 };
 goog.inherits(Blockly.FieldImageCrop, Blockly.Field);
@@ -67,6 +68,7 @@ Blockly.FieldImageCrop.prototype.init = function() {
   if (!this.visible_) {
     this.fieldGroup_.style.display = 'none';
   }
+  // add viewport
   /** @type {SVGElement} */
   this.svgElement_ = Blockly.createSvgElement('svg',
       {'width':this.width_ + 'px', 'height': this.height_ + 'px'}, this.fieldGroup_);
@@ -129,18 +131,16 @@ Blockly.FieldImageCrop.prototype.getValue = function() {
  */
 Blockly.FieldImageCrop.prototype.setValue = function(src) {
   src = goog.isString(src) ? src : '';
-  if (src == '') {
+  if (src == '' || src == this.src_) {
     return;
   }
   var self = this;
   var img = new Image();
   img.addEventListener('load', function(){
-    console.log(this.width, this.height, this);
     self.src_ = src;
     // self.image_size_ = {'width': this.width, 'height': this.height};
     if (self.imageElement_) {
-      self.imageElement_.setAttributeNS('http://www.w3.org/1999/xlink',
-          'xlink:href', src);
+      self.imageElement_.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', src);
       self.imageElement_.setAttribute('width', this.width + '');
       self.imageElement_.setAttribute('height', this.height + '');
       self.setBound({'left':0, 'top':0, 'width':Math.max(this.width, 10), 'height':Math.max(this.height, 10)});
@@ -166,4 +166,6 @@ Blockly.FieldImageCrop.prototype.setBound = function(bound) {
     this.imageElement_.setAttribute('transform', 'scale(' + scale + ' ' + scale + ')');
   }
   this.size_.width = this.width_;
+  // force update after width change.
+  this.sourceBlock_.render();
 }

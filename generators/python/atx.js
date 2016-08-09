@@ -33,10 +33,9 @@ Blockly.Python['atx_connect'] = function(block) {
 // };
 
 Blockly.Python['atx_click'] = function(block) {
-  var value_x = Blockly.Python.valueToCode(block, 'X', Blockly.Python.ORDER_ATOMIC);
-  var value_y = Blockly.Python.valueToCode(block, 'Y', Blockly.Python.ORDER_ATOMIC);
-  // TODO: Assemble Python into code variable.
-  var code = 'd.click(' + value_x + ', ' + value_y + ')\n';
+  var value_x = block.getFieldValue('X'),
+      value_y = block.getFieldValue('Y'),
+      code = 'd.click(' + value_x + ', ' + value_y + ')\n';
   return code;
 };
 
@@ -100,6 +99,11 @@ Blockly.Python['atx_image_crop'] =  function(block) {
       filename = block.getFieldValue('FILENAME');
   console.log(x, y, w, h, ox, oy, filename);
   return ['atx_image_crop', Blockly.Python.ORDER_ATOMIC];
+}
+
+Blockly.Python['atx_image_crop_preview'] = function(block) {
+  var filename = block.getFieldValue('IMAGE');
+  return ['atx_image_crop_preview', filename];
 }
 
 Blockly.Python['atx_blank'] = function(block) {

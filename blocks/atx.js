@@ -74,10 +74,10 @@ Blockly.Blocks['atx_image_pattern'] = {
         .setAlign(Blockly.ALIGN_RIGHT)
         .appendField("图片");
     this.appendDummyInput()
-        .appendField("偏移 (")
-        .appendField(new Blockly.FieldNumber(0, 0, 9999, 1), "OX")
+        .appendField("偏移(")
+        .appendField(new Blockly.FieldNumber(0, -1000, 1000, 1), "OX")
         .appendField(',')
-        .appendField(new Blockly.FieldNumber(0, 0, 9999, 1), "OY")
+        .appendField(new Blockly.FieldNumber(0, -1000, 1000, 1), "OY")
         .appendField(")")
         .appendField("阈值")
         .appendField(new Blockly.FieldNumber(0.8, 0, 1, 0.01), "THRESHOLD");

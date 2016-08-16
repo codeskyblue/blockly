@@ -152,8 +152,8 @@ Blockly.FieldImageCrop.prototype.setValue = function(src) {
         bound = self.bound_;
         bound.width = Math.max(Math.min(this.width, bound.width), 10);
         bound.height = Math.max(Math.min(this.height, bound.height), 10);
-        bound.left = Math.max(bound.left + bound.width - this.width, 0);
-        bound.top = Math.max(bound.top + bound.height - this.height, 0);
+        bound.left = (bound.left + bound.width < this.width) ? bound.left : 0;
+        bound.top = (bound.top + bound.height < this.height) ? bound.top : 0;
       }
       self.setBound(bound);
     }

@@ -13,6 +13,7 @@ goog.provide('Blockly.Blocks.atx');
 goog.require('Blockly.Blocks');
 
 Blockly.Blocks.atx.HUE = 140;
+Blockly.Blocks.atx.defaultImage = defaultImage;
 
 // OLD: https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#gq8gdg
 // NEW: https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#yfa7gg
@@ -74,6 +75,23 @@ Blockly.Blocks['atx_image_pattern'] = {
         .setAlign(Blockly.ALIGN_RIGHT)
         .appendField("图片");
     this.appendDummyInput()
+        .appendField("阈值")
+        .appendField(new Blockly.FieldNumber(0.8, 0, 1, 0.01), "THRESHOLD");
+    this.setInputsInline(true);
+    this.setOutput(true, "ATX_PATTERN");
+    this.setColour(195);
+    this.setTooltip('');
+    this.setHelpUrl(helpUrl);
+  }
+};
+
+Blockly.Blocks['atx_image_pattern_offset'] = {
+  init: function() {
+    this.appendValueInput("FILENAME")
+        .setCheck("String")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("图片");
+    this.appendDummyInput()
         .appendField("偏移(")
         .appendField(new Blockly.FieldNumber(0, -1000, 1000, 1), "OX")
         .appendField(',')
@@ -93,7 +111,7 @@ Blockly.Blocks['atx_image_file'] = {
   init: function() {
     var getImages = function(){
       //return window.blocklyImageList || [["unknown.png", "https://www.gstatic.com/codesite/ph/images/star_on.gif"]];
-      return window.blocklyImageList || [["unknown.svg", defaultImage]];
+      return window.blocklyImageList || [["unknown.svg", defaultImage]];//, ['screen.png', 'screen.png']];
     }
     this.appendDummyInput()
         .appendField(new Blockly.FieldImage(defaultImage, 30, 30, "*"), 'IMAGE')
@@ -104,12 +122,28 @@ Blockly.Blocks['atx_image_file'] = {
     this.setHelpUrl(helpUrl);
   },
   onchange: function(event) {
+    if (event.type == Blockly.Events.CREATE) {
+      var found = false;
+      for (var i = 0; i < event.ids.length; i++) {
+        if (event.ids[i] == this.id) {
+          found = true;
+          break;
+        }
+      }
+      if (!found) {return;}
+    } else if (event.blockId != this.id) {
+      return;
+    }
     var field_image = this.getField('IMAGE');
     var val_filename = this.getFieldValue('FILENAME')
 
     if (event.type == Blockly.Events.CHANGE || event.type == Blockly.Events.CREATE) {
-      var baseURL = window.blocklyBaseURL || '';
-      field_image.setValue(baseURL + val_filename)
+      if (val_filename == defaultImage) {
+        field_image.setValue(defaultImage);
+      } else {
+        var baseURL = window.blocklyBaseURL || '';
+        field_image.setValue(baseURL + val_filename)
+      }
     }
   }
 };
@@ -132,7 +166,7 @@ Blockly.Blocks['atx_screenshot'] = {
 Blockly.Blocks['atx_image_crop'] = {
   init: function(){
     var getImages = function(){
-      return window.blocklyImageList || [["unknown.svg", defaultImage], ["screen.png", "screen.png"]];
+      return window.blocklyCropImageList || [["unknown.svg", defaultImage]];//, ['screen.png', 'screen.png']];
     }
     this.appendDummyInput()
         .appendField(new Blockly.FieldDropdown(getImages), "FILENAME");
@@ -144,9 +178,9 @@ Blockly.Blocks['atx_image_crop'] = {
         .appendField(")");
     this.appendDummyInput()
         .appendField("Size:  (")
-        .appendField(new Blockly.FieldNumber(10, 10, 9999, 1), "WIDTH")
+        .appendField(new Blockly.FieldNumber(50, 10, 9999, 1), "WIDTH")
         .appendField("x")
-        .appendField(new Blockly.FieldNumber(10, 10, 9999, 1), "HEIGHT")
+        .appendField(new Blockly.FieldNumber(50, 10, 9999, 1), "HEIGHT")
         .appendField(")");
     this.setOutput(true, "IMAGE_CROP");
     this.setColour(60);
@@ -169,25 +203,47 @@ Blockly.Blocks['atx_image_crop_preview'] = {
     this.setHelpUrl(helpUrl);
   },
   onchange: function(event) {
-    if (event.element != 'field') {
+    switch (event.type) {
+      case Blockly.Events.CREATE:
+        var found = false;
+        for (var i = 0; i < event.ids.length; i++) {
+          if (event.ids[i] == this.id) {
+            found = true;
+            break;
+          }
+        }
+        if (!found) {return;}
+        break;
+      case Blockly.Events.MOVE:
+        if (event.blockId != this.id && event.newParentId != this.id && event.oldParentId != this.id) {
+          return;
+        }
+        break;
+      case Blockly.Events.UI:
+      case Blockly.Events.CHANGE:
+        if (event.element != 'field') {return;}
+        break;
+      default:
+        return;
+    }
+    var field = this.getField('IMAGE'),
+        crop = this.getInput('IMAGE_CROP').connection.targetBlock();
+    if (crop == null) {
+      field.setValue(defaultImage);
       return;
     }
-    var block = this.getField('IMAGE');
-    if (event.name == 'FILENAME'){
-      var baseURL = window.blocklyBaseURL || '';
-      console.log(313, 'image crop filename change',baseURL, event.oldValue, event.newValue);
-      block.setValue(baseURL + event.newValue);
+    var baseURL = window.blocklyBaseURL || '',
+        filename = crop.getFieldValue('FILENAME');
+    if (filename == defaultImage) {
+      field.setValue(defaultImage);
     } else {
-      var crop = this.getInput('IMAGE_CROP').connection.targetBlock();
-      if (crop == null) {
-        return;
-      }
-      var left = crop.getFieldValue('LEFT'),
-          top = crop.getFieldValue('TOP'),
-          width = crop.getFieldValue('WIDTH'),
-          height = crop.getFieldValue('HEIGHT');
-      block.setBound({left, top, width, height});
+      field.setValue(baseURL + filename);
     }
+    var left = parseInt(crop.getFieldValue('LEFT')),
+        top = parseInt(crop.getFieldValue('TOP')),
+        width = parseInt(crop.getFieldValue('WIDTH')),
+        height = parseInt(crop.getFieldValue('HEIGHT'));
+    field.setBound({left, top, width, height});
   },
 };
 

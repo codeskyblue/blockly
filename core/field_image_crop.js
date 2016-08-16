@@ -45,6 +45,7 @@ Blockly.FieldImageCrop = function(src, height, opt_alt) {
       this.height_ + 2 * Blockly.BlockSvg.INLINE_PADDING_Y);
   // this.image_size_ = {width: this.width_, height: this.height_};
   this.text_ = opt_alt || '';
+  this.bound_ = null;
   this.setValue(src);
 };
 goog.inherits(Blockly.FieldImageCrop, Blockly.Field);
@@ -143,7 +144,18 @@ Blockly.FieldImageCrop.prototype.setValue = function(src) {
       self.imageElement_.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', src);
       self.imageElement_.setAttribute('width', this.width + '');
       self.imageElement_.setAttribute('height', this.height + '');
-      self.setBound({'left':0, 'top':0, 'width':Math.max(this.width, 10), 'height':Math.max(this.height, 10)});
+      // update bound after image loaded.
+      var bound;
+      if (self.bound_ == null) {
+        bound = {'left':0, 'top':0, 'width':Math.max(this.width, 10), 'height':Math.max(this.height, 10)};
+      } else {
+        bound = self.bound_;
+        bound.width = Math.max(Math.min(this.width, bound.width), 10);
+        bound.height = Math.max(Math.min(this.height, bound.height), 10);
+        bound.left = Math.max(bound.left + bound.width - this.width, 0);
+        bound.top = Math.max(bound.top + bound.height - this.height, 0);
+      }
+      self.setBound(bound);
     }
   });
   img.src = src;
@@ -156,12 +168,17 @@ Blockly.FieldImageCrop.prototype.setBound = function(bound) {
   if (bound === null) {
     return;
   }
-  var scale = this.height_ / bound.height;
-  this.width_ = parseInt(bound.width * scale);
+  this.bound_ = bound;
+  this.updateBound();
+}
+
+Blockly.FieldImageCrop.prototype.updateBound = function() {
+  var scale = this.height_ / this.bound_.height;
+  this.width_ = parseInt(this.bound_.width * scale);
   this.svgElement_.setAttribute('width', this.width_ + 'px');
   if (this.imageElement_) {
-    this.imageElement_.setAttribute('x', '-' + bound.left);
-    this.imageElement_.setAttribute('y', '-' + bound.top);
+    this.imageElement_.setAttribute('x', '-' + this.bound_.left);
+    this.imageElement_.setAttribute('y', '-' + this.bound_.top);
     scale = scale.toFixed(2);
     this.imageElement_.setAttribute('transform', 'scale(' + scale + ' ' + scale + ')');
   }

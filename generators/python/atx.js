@@ -22,6 +22,9 @@ Blockly.Python['atx_click'] = function(block) {
 
 Blockly.Python['atx_click_image'] = function(block) {
   var value_atx_pattern = Blockly.Python.valueToCode(block, 'ATX_PATTERN', Blockly.Python.ORDER_ATOMIC);
+  if (value_atx_pattern != '' && (value_atx_pattern[0] == '"' || value_atx_pattern[0] == "'")) {
+    value_atx_pattern = 'u' + value_atx_pattern
+  }
   var text_timeout = block.getFieldValue('TIMEOUT');
   var params = [value_atx_pattern];
   if (text_timeout) {
@@ -33,6 +36,9 @@ Blockly.Python['atx_click_image'] = function(block) {
 
 Blockly.Python['atx_image_pattern'] = function(block) {
   var value_filename = Blockly.Python.valueToCode(block, 'FILENAME', Blockly.Python.ORDER_ATOMIC);
+  if (value_filename!= '' && (value_filename[0] == '"' || value_filename[0] == "'")) {
+    value_filename = 'u' + value_filename
+  }
   var value_threshold = block.getFieldValue('THRESHOLD');
   var params = [value_filename];
   if (value_threshold) {
@@ -44,6 +50,9 @@ Blockly.Python['atx_image_pattern'] = function(block) {
 
 Blockly.Python['atx_image_pattern_offset'] = function(block) {
   var value_filename = Blockly.Python.valueToCode(block, 'FILENAME', Blockly.Python.ORDER_ATOMIC);
+  if (value_filename!= '' && (value_filename[0] == '"' || value_filename[0] == "'")) {
+    value_filename = 'u' + value_filename
+  }
   var value_threshold = block.getFieldValue('THRESHOLD');
   var value_offset_x = parseInt(block.getFieldValue('OX'));
   var value_offset_y = parseInt(block.getFieldValue('OY'));
@@ -63,13 +72,13 @@ Blockly.Python['atx_image_file'] = function(block) {
   if (dropdown_filename === Blockly.Blocks.atx.defaultImage) {
     throw 'No image file choosen for ATX_IMAGE_FILE!'
   }
-  var code = '"' + dropdown_filename + '"';
+  var code = 'u"' + dropdown_filename + '"';
   return [code, Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python['atx_screenshot'] = function(block) {
   var value_filename = Blockly.Python.valueToCode(block, 'FILENAME', Blockly.Python.ORDER_ATOMIC);
-  var code = 'd.screenshot(' + value_filename + ')\n';
+  var code = 'd.screenshot(u' + value_filename + ')\n';
   return code;
 };
 
@@ -82,12 +91,15 @@ Blockly.Python['atx_image_crop'] =  function(block) {
   if (filename === Blockly.Blocks.atx.defaultImage) {
     throw 'No image file choosen for FieldImageCrop!'
   }
-  var code = 'atx.ImageCrop("'+filename+'", ' + 'bound=('+x+','+y+','+w+','+h+')' + ')';
+  var code = 'atx.ImageCrop(u"'+filename+'", ' + 'bound=('+x+','+y+','+w+','+h+')' + ')';
   return [code, Blockly.Python.ORDER_ATOMIC];
 }
 
 Blockly.Python['atx_image_crop_preview'] = function(block) {
   var value_imagecrop= Blockly.Python.valueToCode(block, 'IMAGE_CROP', Blockly.Python.ORDER_ATOMIC);
+  if (value_imagecrop == '') {
+    throw 'No ImageCrop connection found for ImageCropPreview!'
+  }
   return [value_imagecrop, Blockly.Python.ORDER_ATOMIC];
 }
 

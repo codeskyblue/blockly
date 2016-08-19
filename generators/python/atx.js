@@ -13,6 +13,16 @@ Blockly.Python['atx_connect'] = function(block) {
   return code;
 };
 
+Blockly.Python['atx_start_app'] = function(block) {
+  var dropdown_appid = block.getFieldValue('APPID')
+  return 'd.start_app("' + dropdown_appid +'")\n';
+}
+
+Blockly.Python['atx_stop_app'] = function(block) {
+  var dropdown_appid = block.getFieldValue('APPID')
+  return 'd.stop_app("' + dropdown_appid +'")\n';
+}
+
 Blockly.Python['atx_click'] = function(block) {
   var value_x = block.getFieldValue('X'),
       value_y = block.getFieldValue('Y'),
@@ -101,6 +111,15 @@ Blockly.Python['atx_image_crop_preview'] = function(block) {
     throw 'No ImageCrop connection found for ImageCropPreview!'
   }
   return [value_imagecrop, Blockly.Python.ORDER_ATOMIC];
+}
+
+Blockly.Python['atx_swipe'] = function(block) {
+  var sx = block.getFieldValue('SX'),
+      sy = block.getFieldValue('SY'),
+      ex = block.getFieldValue('EY'),
+      ey = block.getFieldValue('EY');
+  var code = 'atx.swipe(' + sx +','+ sy +','+ ex +','+ ey +')\n';
+  return code
 }
 
 Blockly.Python['atx_blank'] = function(block) {

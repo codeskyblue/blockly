@@ -29,6 +29,38 @@ Blockly.Blocks['atx_connect'] = {
   }
 };
 
+Blockly.Blocks['atx_start_app'] = {
+  init: function() {
+    var getApps = function(){
+      return window.blocklyAppList || [["None", ""]];
+    }
+    this.appendDummyInput()
+        .appendField("启动App")
+        .appendField(new Blockly.FieldDropdown(getApps), "APPID");
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setColour(160);
+    this.setTooltip('');
+    this.setHelpUrl(helpUrl);
+  }
+}
+
+Blockly.Blocks['atx_stop_app'] = {
+  init: function() {
+    var getApps = function(){
+      return window.blocklyAppList || [["None", ""]];
+    }
+    this.appendDummyInput()
+        .appendField("停止App")
+        .appendField(new Blockly.FieldDropdown(getApps), "APPID");
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setColour(160);
+    this.setTooltip('');
+    this.setHelpUrl(helpUrl);
+  }
+}
+
 // https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#2zccrz
 Blockly.Blocks['atx_click'] = {
   init: function() {
@@ -94,9 +126,9 @@ Blockly.Blocks['atx_image_pattern_offset'] = {
     this.appendDummyInput()
         .appendField("偏移(")
         .appendField(new Blockly.FieldNumber(0, -1000, 1000, 1), "OX")
-        .appendField(',')
+        .appendField('%,')
         .appendField(new Blockly.FieldNumber(0, -1000, 1000, 1), "OY")
-        .appendField(")")
+        .appendField("%)")
         .appendField("阈值")
         .appendField(new Blockly.FieldNumber(0.8, 0, 1, 0.01), "THRESHOLD");
     this.setInputsInline(true);
@@ -171,13 +203,13 @@ Blockly.Blocks['atx_image_crop'] = {
     this.appendDummyInput()
         .appendField(new Blockly.FieldDropdown(getImages), "FILENAME");
     this.appendDummyInput()
-        .appendField("Offset: (")
+        .appendField("位置: (")
         .appendField(new Blockly.FieldNumber(0, 0, 9999, 1), "LEFT")
         .appendField(',')
         .appendField(new Blockly.FieldNumber(0, 0, 9999, 1), "TOP")
         .appendField(")");
     this.appendDummyInput()
-        .appendField("Size:  (")
+        .appendField("大小: (")
         .appendField(new Blockly.FieldNumber(50, 10, 9999, 1), "WIDTH")
         .appendField("x")
         .appendField(new Blockly.FieldNumber(50, 10, 9999, 1), "HEIGHT")
@@ -246,6 +278,27 @@ Blockly.Blocks['atx_image_crop_preview'] = {
     field.setBound({left, top, width, height});
   },
 };
+
+Blockly.Blocks['atx_swipe'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("滑动屏幕 ")
+        .appendField("从(")
+        .appendField(new Blockly.FieldNumber(0, 0, 9999, 1), "SX")
+        .appendField(',')
+        .appendField(new Blockly.FieldNumber(0, 0, 9999, 1), "SY")
+        .appendField(") 到(")
+        .appendField(new Blockly.FieldNumber(0, 0, 9999, 1), "EX")
+        .appendField(',')
+        .appendField(new Blockly.FieldNumber(0, 0, 9999, 1), "EY")
+        .appendField(")");
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setColour(230);
+    this.setTooltip('');
+    this.setHelpUrl(helpUrl);
+  }
+}
 
 // An blank line for separate blocks of code
 Blockly.Blocks['atx_blank'] = {

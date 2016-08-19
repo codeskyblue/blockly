@@ -21,7 +21,7 @@ Blockly.Blocks['atx_connect'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("连接设备")
-        .appendField(new Blockly.FieldDropdown([["Android", "android"], ["Windows", "windows"]]), "PLATFORM");
+        .appendField(new Blockly.FieldDropdown([["Android", "android"], ["iOS", "ios"]]), "PLATFORM");
     this.setNextStatement(true, null);
     this.setColour(160);
     this.setTooltip('');
@@ -32,7 +32,10 @@ Blockly.Blocks['atx_connect'] = {
 Blockly.Blocks['atx_start_app'] = {
   init: function() {
     var getApps = function(){
-      return window.blocklyAppList || [["None", ""]];
+      if (window.blocklyAppList && window.blocklyAppList.length > 0) {
+        return window.blocklyAppList;
+      }
+      return [["None", ""]];
     }
     this.appendDummyInput()
         .appendField("启动App")
@@ -48,7 +51,10 @@ Blockly.Blocks['atx_start_app'] = {
 Blockly.Blocks['atx_stop_app'] = {
   init: function() {
     var getApps = function(){
-      return window.blocklyAppList || [["None", ""]];
+      if (window.blocklyAppList && window.blocklyAppList.length > 0) {
+        return window.blocklyAppList;
+      }
+      return [["None", ""]];
     }
     this.appendDummyInput()
         .appendField("停止App")
@@ -142,8 +148,10 @@ Blockly.Blocks['atx_image_pattern_offset'] = {
 Blockly.Blocks['atx_image_file'] = {
   init: function() {
     var getImages = function(){
-      //return window.blocklyImageList || [["unknown.png", "https://www.gstatic.com/codesite/ph/images/star_on.gif"]];
-      return window.blocklyImageList || [["unknown.svg", defaultImage]];//, ['screen.png', 'screen.png']];
+      if (window.blocklyImageList && window.blocklyImageList.length > 0) {
+        return window.blocklyImageList;
+      }
+      return [["unknown.svg", defaultImage]];//, ['screen.png', 'screen.png']];
     }
     this.appendDummyInput()
         .appendField(new Blockly.FieldImage(defaultImage, 30, 30, "*"), 'IMAGE')
@@ -198,7 +206,10 @@ Blockly.Blocks['atx_screenshot'] = {
 Blockly.Blocks['atx_image_crop'] = {
   init: function(){
     var getImages = function(){
-      return window.blocklyCropImageList || [["unknown.svg", defaultImage]];//, ['screen.png', 'screen.png']];
+      if (window.blocklyCropImageList && window.blocklyCropImageList.length > 0) {
+        return window.blocklyCropImageList;
+      }
+      return [["unknown.svg", defaultImage]];//, ['screen.png', 'screen.png']];
     }
     this.appendDummyInput()
         .appendField(new Blockly.FieldDropdown(getImages), "FILENAME");

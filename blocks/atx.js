@@ -41,7 +41,8 @@ Blockly.Blocks['atx_start_app'] = {
     }
     this.appendDummyInput()
         .appendField("启动App")
-        .appendField(new Blockly.FieldDropdown(getApps), "APPID");
+        .appendField(new Blockly.FieldTextInput('com.example.app'), 'APPID');
+        // .appendField(new Blockly.FieldDropdown(getApps), "APPID");
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setColour(160);
@@ -60,7 +61,8 @@ Blockly.Blocks['atx_stop_app'] = {
     }
     this.appendDummyInput()
         .appendField("停止App")
-        .appendField(new Blockly.FieldDropdown(getApps), "APPID");
+        .appendField(new Blockly.FieldTextInput('com.example.app'), 'APPID');
+        // .appendField(new Blockly.FieldDropdown(getApps), "APPID");
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setColour(160);

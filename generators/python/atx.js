@@ -4,11 +4,18 @@ goog.provide('Blockly.Python.atx');
 goog.require('Blockly.Python');
 
 Blockly.Python['atx_connect'] = function(block) {
-  var dropdown_platform = block.getFieldValue('PLATFORM');
+  var dropdown_platform = block.getFieldValue('PLATFORM'),
+      identifier = block.getFieldValue('IDENTIFIER'),
+      connect_code;
+  if (identifier == '') {
+    connect_code = 'd = atx.connect(platform="' + dropdown_platform + '")';
+  } else {
+    connect_code = 'd = atx.connect("' + identifier + '", platform="' + dropdown_platform + '")';
+  }
   var code = '# coding: utf-8\n' +
     'import os\nimport atx\n\n\n' +
     '__basename = os.path.basename(os.path.splitext(__file__)[0])\n' +
-    'd = atx.connect(platform="'+ dropdown_platform + '")\n' +
+    'if not globals().get("d"): ' + connect_code + '\n' +
     'd.image_path = [".", "images", os.path.join("images", __basename)]\n\n';
   return code;
 };

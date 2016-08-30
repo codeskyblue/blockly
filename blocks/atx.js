@@ -21,7 +21,9 @@ Blockly.Blocks['atx_connect'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("连接设备")
-        .appendField(new Blockly.FieldDropdown([["Android", "android"], ["iOS", "ios"]]), "PLATFORM");
+        .appendField(new Blockly.FieldDropdown([["Android", "android"], ["iOS", "ios"]]), "PLATFORM")
+        .appendField("Identifier")
+        .appendField(new Blockly.FieldTextInput(''), 'IDENTIFIER');
     this.setNextStatement(true, null);
     this.setColour(160);
     this.setTooltip('');

@@ -125,7 +125,7 @@ Blockly.Python['atx_swipe'] = function(block) {
       sy = block.getFieldValue('SY'),
       ex = block.getFieldValue('EY'),
       ey = block.getFieldValue('EY');
-  var code = 'atx.swipe(' + sx +','+ sy +','+ ex +','+ ey +')\n';
+  var code = 'd.swipe(' + sx +','+ sy +','+ ex +','+ ey +')\n';
   return code
 }
 

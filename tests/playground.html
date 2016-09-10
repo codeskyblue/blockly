@@ -23,6 +23,7 @@
 <script src="../generators/python/variables.js"></script>
 <script src="../generators/python/procedures.js"></script>
 <script src="../generators/python/atx.js"></script>
+<script src="../generators/python/time.js"></script>
 <script src="../generators/php.js"></script>
 <script src="../generators/php/logic.js"></script>
 <script src="../generators/php/loops.js"></script>
@@ -60,6 +61,7 @@
 <script src="../blocks/variables.js"></script>
 <script src="../blocks/procedures.js"></script>
 <script src="../blocks/atx.js"></script>
+<script src="../blocks/time.js"></script>
 <script>
 'use strict';
 var workspace = null;
@@ -746,6 +748,12 @@ h1 {
       </block>
       <block type="atx_swipe"></block>
       <block type="atx_blank"></block>
+      <block type="atx_exists"></block>
+      <block type="atx_wait"></block>
+    </category>
+    <category name="Time" colour="300">
+      <block type="time_sleep"></block>
+      <block type="time_time"></block>
     </category>
   </xml>
   <script type="text/javascript">

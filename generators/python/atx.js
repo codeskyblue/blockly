@@ -38,8 +38,11 @@ Blockly.Python['atx_click'] = function(block) {
 
 Blockly.Python['atx_click_image'] = function(block) {
   var value_atx_pattern = Blockly.Python.valueToCode(block, 'ATX_PATTERN', Blockly.Python.ORDER_ATOMIC);
+  if (value_atx_pattern == '') {
+    throw 'No pattern choosen!';
+  }
   if (value_atx_pattern != '' && (value_atx_pattern[0] == '"' || value_atx_pattern[0] == "'")) {
-    value_atx_pattern = 'u' + value_atx_pattern
+    value_atx_pattern = 'u' + value_atx_pattern;
   }
   var text_timeout = block.getFieldValue('TIMEOUT');
   var params = [value_atx_pattern];
@@ -130,4 +133,30 @@ Blockly.Python['atx_swipe'] = function(block) {
 
 Blockly.Python['atx_blank'] = function(block) {
   return '\n';
+}
+
+Blockly.Python['atx_exists'] = function(block) {
+  var value_atx_pattern = Blockly.Python.valueToCode(block, 'ATX_PATTERN', Blockly.Python.ORDER_ATOMIC);
+  if (value_atx_pattern == '') {
+    throw 'No pattern choosen!';
+  }
+  if (value_atx_pattern != '' && (value_atx_pattern[0] == '"' || value_atx_pattern[0] == "'")) {
+    value_atx_pattern = 'u' + value_atx_pattern;
+  }
+  var code = '(d.exists(' + value_atx_pattern + ') is not None)';
+  return [code, Blockly.Python.ORDER_ATOMIC];
+}
+
+Blockly.Python['atx_wait'] = function(block) {
+  var value_atx_pattern = Blockly.Python.valueToCode(block, 'ATX_PATTERN', Blockly.Python.ORDER_ATOMIC);
+  if (value_atx_pattern == '') {
+    throw 'No pattern choosen!';
+  }
+  if (value_atx_pattern != '' && (value_atx_pattern[0] == '"' || value_atx_pattern[0] == "'")) {
+    value_atx_pattern = 'u' + value_atx_pattern;
+  }
+  var text_timeout = block.getFieldValue('TIMEOUT');
+  var safe = block.getFieldValue('SAFE');
+  console.log(111, value_atx_pattern, safe, typeof safe);
+  return 'd.wait('+ value_atx_pattern + ', timeout=' + text_timeout + ', safe=' + safe +')\n';
 }

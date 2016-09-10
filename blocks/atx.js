@@ -327,3 +327,41 @@ Blockly.Blocks['atx_blank'] = {
     this.setHelpUrl(helpUrl);
   }
 };
+
+// is ImagePattern exists
+Blockly.Blocks['atx_exists'] = {
+  init: function(){
+    this.appendValueInput("ATX_PATTERN")
+        .setCheck(["String", "ATX_PATTERN"])
+        .appendField('存在');
+    this.setOutput(true, 'Boolean');
+    this.setColour(230);
+    this.setTooltip('');
+    this.setHelpUrl(helpUrl);
+  }
+}
+
+// wait for ImagePattern,
+Blockly.Blocks['atx_wait'] = {
+  init: function(){
+    this.appendDummyInput()
+        .appendField("等待");
+    this.appendValueInput("ATX_PATTERN")
+        .setCheck(["String", "ATX_PATTERN"])
+        .setAlign(Blockly.ALIGN_RIGHT);
+    this.appendDummyInput()
+        .appendField("超时时间")
+        .appendField(new Blockly.FieldTextInput("20.0"), "TIMEOUT")
+        .appendField("s");
+    this.appendDummyInput()
+        .appendField("超时异常")
+        .appendField(new Blockly.FieldDropdown([["True", 'True'], ["False", 'False']]), "SAFE");
+    this.setInputsInline(true);
+    // this.appendStatementInput('DO');
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setColour(230);
+    this.setTooltip('');
+    this.setHelpUrl(helpUrl);
+  }
+}

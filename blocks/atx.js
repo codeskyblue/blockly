@@ -355,7 +355,7 @@ Blockly.Blocks['atx_wait'] = {
         .appendField("s");
     this.appendDummyInput()
         .appendField("超时异常")
-        .appendField(new Blockly.FieldDropdown([["True", 'True'], ["False", 'False']]), "SAFE");
+        .appendField(new Blockly.FieldDropdown([["True", 'False'], ["False", 'True']]), "SAFE");
     this.setInputsInline(true);
     // this.appendStatementInput('DO');
     this.setPreviousStatement(true);
@@ -363,5 +363,19 @@ Blockly.Blocks['atx_wait'] = {
     this.setColour(230);
     this.setTooltip('');
     this.setHelpUrl(helpUrl);
+  }
+}
+
+Blockly.Blocks['atx_delay'] = {
+  init: function(){
+    this.appendDummyInput()
+        .appendField('Delay')
+        .appendField(new Blockly.FieldNumber(0.01, 0, 9999, 0), "SECONDS")
+        .appendField('s');
+    this.setInputsInline(true);
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setColour(300);
+    this.setTooltip('');
   }
 }

@@ -135,6 +135,11 @@ Blockly.Python['atx_blank'] = function(block) {
   return '\n';
 }
 
+Blockly.Python['atx_delay'] = function(block) {
+  var seconds = block.getFieldValue('SECONDS');
+  return 'd.delay(' + seconds + ')\n';
+}
+
 Blockly.Python['atx_exists'] = function(block) {
   var value_atx_pattern = Blockly.Python.valueToCode(block, 'ATX_PATTERN', Blockly.Python.ORDER_ATOMIC);
   if (value_atx_pattern == '') {

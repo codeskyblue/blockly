@@ -162,6 +162,13 @@ Blockly.Python['atx_wait'] = function(block) {
   }
   var text_timeout = block.getFieldValue('TIMEOUT');
   var safe = block.getFieldValue('SAFE');
-  console.log(111, value_atx_pattern, safe, typeof safe);
   return 'd.wait('+ value_atx_pattern + ', timeout=' + text_timeout + ', safe=' + safe +')\n';
+}
+
+Blockly.Python['atx_keep_screen'] = function(block) {
+  return 'd.keep_screen()\n';
+}
+
+Blockly.Python['atx_free_screen'] = function(block) {
+  return 'd.free_screen()\n';
 }

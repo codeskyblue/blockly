@@ -379,3 +379,27 @@ Blockly.Blocks['atx_delay'] = {
     this.setTooltip('');
   }
 }
+
+Blockly.Blocks['atx_keep_screen'] = {
+  init: function(){
+    this.appendDummyInput()
+        .appendField('Freeze screen');
+    this.setInputsInline(true);
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setColour(300);
+    this.setTooltip('');
+  }
+}
+
+Blockly.Blocks['atx_free_screen'] = {
+  init: function(){
+    this.appendDummyInput()
+        .appendField('Unfreeze screen');
+    this.setInputsInline(true);
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setColour(300);
+    this.setTooltip('');
+  }
+}
